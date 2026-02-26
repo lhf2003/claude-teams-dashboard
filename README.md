@@ -1,83 +1,126 @@
 # Teams Dashboard
 
-Claude Code Agent Teams 的可视化群聊式管理面板。
+**English** | [中文](./README.zh.md)
 
-## 功能特性
+A visual group-chat style management dashboard for Claude Code Agent Teams.
 
-- **团队列表**：左侧显示所有 Claude Code Agent Teams
-- **成员管理**：中间面板显示团队成员，支持点击查看详情
-- **群聊视图**：聚合显示团队所有消息，类似微信群聊界面
-- **任务列表**：查看团队任务及其状态
-- **实时更新**：通过 WebSocket 自动同步文件系统变化
-- **消息格式化**：自动识别协议消息（JSON）并格式化显示
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Node.js](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg)
 
-## 安装与运行
+## Features
+
+- **Team List**: Displays all Claude Code Agent Teams on the left sidebar
+- **Member Management**: Shows team members with clickable detail view
+- **Group Chat View**: Aggregates all team messages in a WeChat-like interface
+- **Task List**: View tasks with status and detailed information
+- **Real-time Updates**: WebSocket-powered live synchronization of file system changes
+- **Message Formatting**: Automatic detection and formatting of protocol messages (JSON)
+
+## Screenshots
+
+![Teams Dashboard Layout](./layout-final.png)
+
+## Installation & Usage
 
 ```bash
-# 进入项目目录
-cd D:\workspace\teams-dashboard
+# Clone the repository
+git clone https://github.com/your-username/claude-teams-dashboard.git
+cd claude-teams-dashboard
 
-# 安装依赖
+# Install dependencies
 npm install
 
-# 启动服务
+# Start the server
 npm start
 ```
 
-访问 http://localhost:3000
+Visit http://localhost:3000
 
-## 界面布局
+## UI Layout
 
 ```
 +---------------+----------------+------------------------+
 |               |                |                        |
-|   团队列表     |   成员/群聊/任务 |       详情面板         |
+|   Team List   |  Members/Chat  |      Detail Panel      |
+|               |     /Tasks     |                        |
 |               |                |                        |
+|  • Team A     |  Member List   |   Member Info          |
+|  • Team B     |  -----------   |   Inbox Messages       |
 |               |                |                        |
-|  • Team A     |  成员列表       |   成员信息              |
-|  • Team B     |  -----------   |   Inbox 消息            |
-|               |                |                        |
-|               |  [成员][群聊][任务]                        |
-|               |                |                        |
-|               |  群聊视图       |   团队概览              |
-|               |  ============  |   成员网格              |
-|               |  Alice: 你好    |   任务统计              |
-|               |  Bob: 收到      |                        |
+|               | [Members][Chat]|                        |
+|               |    [Tasks]     |                        |
+|               |                |   Team Overview        |
+|               |  Chat View     |   Member Grid          |
+|               |  ============  |   Task Stats           |
+|               |  Alice: Hello  |                        |
+|               |  Bob: Got it   |                        |
 |               |                |                        |
 +---------------+----------------+------------------------+
 ```
 
-## 技术栈
+## Tech Stack
 
-- **后端**：Node.js + Express + WebSocket
-- **前端**：原生 JavaScript + CSS3
-- **文件监控**：chokidar（实时监听 ~/.claude/teams/ 变化）
+- **Backend**: Node.js + Express + WebSocket (ws)
+- **Frontend**: Vanilla JavaScript + CSS3
+- **File Watcher**: chokidar (monitors ~/.claude/teams/ for changes)
+- **Markdown Renderer**: marked.js
 
-## 目录结构
+## Project Structure
 
 ```
-├── server.js          # 主服务器
-├── package.json
-├── README.md
-└── public/
-    ├── index.html     # 主页面
-    ├── style.css      # 样式表
-    └── app.js         # 前端逻辑
+├── server.js          # Main server with WebSocket support
+├── package.json       # Dependencies and scripts
+├── README.md          # This file (English)
+├── README.zh.md       # Chinese documentation
+├── CLAUDE.md          # Development guide for Claude Code
+├── .gitignore         # Git ignore rules
+└── public/            # Static assets
+    ├── index.html     # Main HTML page
+    ├── style.css      # Styles with Apple-inspired design
+    └── app.js         # Frontend JavaScript logic
 ```
 
-## 数据读取路径
+## Data Sources
 
-- **团队配置**：`~/.claude/teams/{team-id}/config.json`
-- **成员收件箱**：`~/.claude/teams/{team-id}/inboxes/{member}.json`
-- **任务列表**：`~/.claude/tasks/{team-id}/{task-id}.json`
+The dashboard reads data from Claude Code's team directories:
 
-## 使用提示
+| Data Type | Path |
+|-----------|------|
+| Team Config | `~/.claude/teams/{team-id}/config.json` |
+| Member Inbox | `~/.claude/teams/{team-id}/inboxes/{member}.json` |
+| Tasks | `~/.claude/tasks/{team-id}/{task-id}.json` |
 
-1. 面板为只读模式，不会修改 Claude Code 的数据
-2. 刷新页面或点击刷新按钮可强制重新加载数据
-3. 协议消息（如 idle_notification）会自动格式化显示为 JSON
-4. 支持深色模式主题
+## Development Commands
+
+```bash
+# Run in development mode (with auto-reload if using nodemon)
+npm run dev
+
+# Or simply
+npm start
+```
+
+## Tips
+
+1. The dashboard is read-only and will not modify Claude Code's data
+2. Refresh the page or click the refresh button to force reload data
+3. Protocol messages (e.g., idle_notification) are automatically formatted as JSON
+4. WebSocket connection auto-reconnects on disconnect
+
+## Browser Support
+
+- Chrome/Edge (latest)
+- Firefox (latest)
+- Safari (latest)
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-MIT
+MIT License - see [LICENSE](./LICENSE) file for details.
+
+---
+
+<p align="center">Made with ❤️ for Claude Code Agent Teams</p>
