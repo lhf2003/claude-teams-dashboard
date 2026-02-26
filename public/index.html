@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Claude Code Agent Teams Dashboard - 群聊式团队管理面板">
+  <meta name="theme-color" content="#F5F5F7">
+  <meta name="color-scheme" content="light">
+  <title>Claude Code Teams Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+  <div class="app">
+    <!-- 左侧：团队列表 -->
+    <aside class="teams-sidebar">
+      <div class="sidebar-header">
+        <h2>Teams</h2>
+        <button id="refreshBtn" class="btn-icon" title="刷新">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+          </svg>
+        </button>
+      </div>
+      <div id="teamsList" class="teams-list">
+        <div class="loading">加载中...</div>
+      </div>
+    </aside>
+
+    <!-- 右侧：主内容区 -->
+    <main class="main-content">
+      <!-- 顶部导航栏 -->
+      <header class="content-header">
+        <div class="header-left">
+          <h1 id="teamTitle">选择一个团队</h1>
+        </div>
+        <nav class="view-tabs">
+          <button class="view-tab active" data-view="members">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            成员
+          </button>
+          <button class="view-tab" data-view="chat">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+            </svg>
+            群聊
+          </button>
+          <button class="view-tab" data-view="tasks">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 11l3 3L22 4"></path>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+            </svg>
+            任务
+          </button>
+        </nav>
+      </header>
+
+      <!-- 视图内容区 -->
+      <div class="content-body">
+        <!-- 成员视图：左侧列表 + 右侧详情 -->
+        <div id="membersView" class="view active">
+          <div class="split-layout">
+            <aside class="member-list-panel">
+              <div id="membersList" class="members-list">
+                <div class="empty-state">选择一个团队查看成员</div>
+              </div>
+            </aside>
+            <div id="memberDetailPanel" class="detail-content-panel">
+              <div class="empty-state large">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+                <p>选择一个成员查看详情</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 群聊视图：全宽显示 -->
+        <div id="chatView" class="view">
+          <div class="full-layout">
+            <div id="chatMessages" class="chat-messages">
+              <div class="empty-state">选择一个团队查看消息</div>
+            </div>
+            <div class="chat-input-area">
+              <span class="readonly-hint">只读模式 - 仅用于查看 Claude Code Agent Teams 消息</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 任务视图：左侧列表 + 右侧详情 -->
+        <div id="tasksView" class="view">
+          <div class="split-layout">
+            <aside class="task-list-panel">
+              <div id="tasksList" class="tasks-list">
+                <div class="empty-state">选择一个团队查看任务</div>
+              </div>
+            </aside>
+            <div id="taskDetailPanel" class="detail-content-panel">
+              <div class="empty-state large">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <path d="M9 11l3 3L22 4"></path>
+                  <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                </svg>
+                <p>选择一个任务查看详情</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- 连接状态指示器 -->
+  <div id="connectionStatus" class="connection-status connecting">
+    <span class="status-dot"></span>
+    <span class="status-text">连接中...</span>
+  </div>
+
+  <!-- Markdown 渲染器加载状态 -->
+  <div id="markdownStatus" class="markdown-status loading">
+    <span>Markdown 渲染器加载中...</span>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" onload="console.log('Marked loaded successfully')"></script>
+  <script src="app.js"></script>
+</body>
+</html>
